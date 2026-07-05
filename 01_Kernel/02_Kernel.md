@@ -86,3 +86,54 @@ Understand hiring, trends, companies, open source, and the AI ecosystem.
 
 Purpose:
 Maintain physical and mental performance to sustain long-term growth.
+
+---
+
+# Execution Layer
+
+The Kernel defines permanent knowledge domains.
+
+The Curriculum stores structured knowledge inside those domains.
+
+The Execution Layer uses that knowledge.
+
+The workflow is:
+
+Kernel
+↓
+
+Curriculum
+
+↓
+
+AI Manager
+
+↓
+
+Daily
+
+↓
+
+Weekly
+
+↓
+
+Monthly
+
+↓
+
+Projects
+
+↓
+
+Reviews
+
+The Curriculum answers:
+
+"What can I learn?"
+
+The AI Manager answers:
+
+"What should I do today?"
+
+This separation should always be maintained.
