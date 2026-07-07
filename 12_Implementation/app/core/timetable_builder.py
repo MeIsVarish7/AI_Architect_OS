@@ -1,16 +1,36 @@
 class TimetableBuilder:
 
+    BUFFER_MINUTES = 15
+
     def build(self, work_units, available_minutes):
 
-        timetable = []
+        planning_target = max(
+            0,
+            available_minutes - self.BUFFER_MINUTES
+        )
 
-        used_minutes = 0
+        timetable = []
+        planned_minutes = 0
 
         for unit in work_units:
 
-            if used_minutes + unit.minimum_time <= available_minutes:
+            estimated_time = (
+                unit.minimum_time + unit.maximum_time
+            ) // 2
 
-                timetable.append(unit)
-                used_minutes += unit.minimum_time
+            if planned_minutes + estimated_time <= planning_target:
 
-        return timetable
+                timetable.append(
+                    {
+                        "lesson": unit,
+                        "expected_time": estimated_time,
+                    }
+                )
+
+                planned_minutes += estimated_time
+
+        return {
+            "timetable": timetable,
+            "planned_minutes": planned_minutes,
+            "buffer_minutes": self.BUFFER_MINUTES,
+        }

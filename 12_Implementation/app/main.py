@@ -7,11 +7,12 @@ Author: Varish Talekar
 
 from pathlib import Path
 
-from app.core.health_check import HealthCheck
 from app.core.context_engine import ContextEngine
+from app.core.curriculum_loader import CurriculumLoader
+from app.core.health_check import HealthCheck
 from app.core.os_context import OSContext
 from app.core.runtime_input import RuntimeInput
-from app.core.curriculum_loader import CurriculumLoader
+from app.core.session_controller import SessionController
 from app.core.timetable_builder import TimetableBuilder
 
 
@@ -36,25 +37,21 @@ class AIArchitectOS:
 
         runtime = RuntimeInput().get_runtime()
 
-        available_minutes = runtime["available_time"] * 60
-
         work_units = CurriculumLoader().load()
 
-        timetable = TimetableBuilder().build(
+        session = TimetableBuilder().build(
             work_units,
-            available_minutes,
+            runtime["available_minutes"],
         )
 
-        print("\n===== Today's Timetable =====\n")
-
-        for index, lesson in enumerate(timetable, start=1):
-
-            print(f"{index}. {lesson}")
-
-        print("\nOperating System Ready.")
+        SessionController().run(
+            session,
+            work_units,
+        )
 
 
 def main():
+
     AIArchitectOS().boot()
 
 
