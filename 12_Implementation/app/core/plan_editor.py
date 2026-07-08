@@ -28,26 +28,25 @@ class PlanEditor:
 
     def choose_replacement(self, timetable, all_work_units):
 
-        print("\n===== Available Lessons =====\n")
-
         todays_topics = {
             item["lesson"].topic
             for item in timetable
         }
 
-        available = []
+        subjects = []
 
         for unit in all_work_units:
 
-            if unit.topic not in todays_topics:
-                available.append(unit)
+            if (
+                unit.subject not in subjects
+                and unit.topic not in todays_topics
+            ):
+                subjects.append(unit.subject)
 
-        if not available:
-            print("No replacement lessons available.")
-            return None
+        print("\n===== Select Subject =====\n")
 
-        for index, lesson in enumerate(available, start=1):
-            print(f"[{index}] {lesson.subject} - {lesson.topic}")
+        for index, subject in enumerate(subjects, start=1):
+            print(f"[{index}] {subject}")
 
         print("[0] Cancel")
 
@@ -55,7 +54,42 @@ class PlanEditor:
 
             try:
 
-                choice = int(input("\nSelect replacement: "))
+                choice = int(input("\nChoose subject: "))
+
+                if choice == 0:
+                    return None
+
+                if 1 <= choice <= len(subjects):
+                    selected_subject = subjects[choice - 1]
+                    break
+
+            except ValueError:
+                pass
+
+            print("Invalid choice.")
+
+        available = []
+
+        for unit in all_work_units:
+
+            if (
+                unit.subject == selected_subject
+                and unit.topic not in todays_topics
+            ):
+                available.append(unit)
+
+        print(f"\n===== {selected_subject} Lessons =====\n")
+
+        for index, lesson in enumerate(available, start=1):
+            print(f"[{index}] {lesson.topic}")
+
+        print("[0] Cancel")
+
+        while True:
+
+            try:
+
+                choice = int(input("\nChoose lesson: "))
 
                 if choice == 0:
                     return None

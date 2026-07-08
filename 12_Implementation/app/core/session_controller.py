@@ -28,6 +28,15 @@ class SessionController:
         print(f"Reserved Buffer    : {session['buffer_minutes']}m")
         print("----------------------------------------")
 
+    def recalculate(self, session):
+
+        total = 0
+
+        for item in session["timetable"]:
+            total += item["expected_time"]
+
+        session["planned_minutes"] = total
+
     def run(self, session, work_units):
 
         while True:
@@ -77,6 +86,8 @@ class SessionController:
                     lesson,
                     replacement,
                 )
+
+                self.recalculate(session)
 
                 print("\nPlan Updated.\n")
 
