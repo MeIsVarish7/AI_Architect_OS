@@ -41,7 +41,7 @@ class AIArchitectOS:
 
         session = TimetableBuilder().build(
             work_units,
-            runtime["available_minutes"],
+            runtime,
         )
 
         SessionController().run(

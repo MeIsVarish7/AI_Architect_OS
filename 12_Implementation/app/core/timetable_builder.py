@@ -6,30 +6,37 @@ class TimetableBuilder:
     BUFFER_MINUTES = 15
     OVERSHOOT_TOLERANCE = 30
 
-    def build(self, work_units, available_minutes):
+    def build(self, work_units, runtime):
 
         planning_target = max(
             0,
-            available_minutes - self.BUFFER_MINUTES,
+            runtime["available_minutes"] - self.BUFFER_MINUTES,
         )
 
         focus_blocks = (
             FocusStrategy()
-            .create_focus_blocks(planning_target)
+            .create_focus_blocks(
+                planning_target,
+                runtime["energy"],
+                runtime["weekday"],
+            )
         )
 
         grouped = {}
 
         for lesson in work_units:
             grouped.setdefault(
-                lesson.subject,
+                lesson.subject.strip(),
                 []
             ).append(lesson)
 
         timetable = []
         planned_minutes = 0
 
-        for subject, block_time in focus_blocks.items():
+        for block in focus_blocks:
+
+            subject = block["subject"].strip()
+            block_time = block["minutes"]
 
             if subject not in grouped:
                 continue
@@ -58,6 +65,7 @@ class TimetableBuilder:
                     {
                         "lesson": lesson,
                         "expected_time": expected,
+                        "priority": block["priority"],
                     }
                 )
 

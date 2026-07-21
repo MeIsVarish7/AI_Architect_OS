@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class RuntimeInput:
 
     MINUTE_OPTIONS = {
@@ -69,4 +72,5 @@ class RuntimeInput:
         return {
             "available_minutes": available_minutes,
             "energy": self.ENERGY_OPTIONS[energy],
+            "weekday": datetime.now().strftime("%A"),
         }
