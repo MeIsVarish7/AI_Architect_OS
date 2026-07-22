@@ -15,3 +15,6 @@ venv/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Runtime Data
+12_Implementation/app/data/progress.json
