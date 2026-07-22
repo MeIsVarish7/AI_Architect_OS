@@ -1,101 +1,60 @@
-from app.core.menu import Menu
-from app.core.plan_editor import PlanEditor
+from app.core.lesson_engine import LessonEngine
+from app.core.progress_tracker import ProgressTracker
 
 
 class SessionController:
 
-    def display(self, session):
+    def __init__(self):
 
-        print("\n========================================")
-        print("Today's Plan")
-        print("========================================\n")
+        self.engine = LessonEngine()
+        self.progress = ProgressTracker()
 
-        for index, item in enumerate(session["timetable"], start=1):
+    def run(self, queue):
 
-            lesson = item["lesson"]
+        while queue.has_lessons():
 
-            print(f"{index}. {lesson.subject}")
-            print(f"   {lesson.topic}")
-            print(f"   Expected: {item['expected_time']} min\n")
+            lesson = queue.current()
 
-        planned = session["planned_minutes"]
+            result = self.engine.run(lesson)
 
-        hours = planned // 60
-        minutes = planned % 60
+            status = result["status"]
 
-        print("----------------------------------------")
-        print(f"Planned Study Time : {hours}h {minutes}m")
-        print(f"Reserved Buffer    : {session['buffer_minutes']}m")
-        print("----------------------------------------")
+            if status == "completed":
 
-    def recalculate(self, session):
+                queue.complete_current()
 
-        total = 0
+                self.progress.advance(
+                    lesson.subject
+                )
 
-        for item in session["timetable"]:
-            total += item["expected_time"]
-
-        session["planned_minutes"] = total
-
-    def run(self, session, work_units):
-
-        while True:
-
-            self.display(session)
-
-            choice = Menu().show()
-
-            if choice == "S":
-
-                print("\n========================================")
-                print("Session Started")
-                print("========================================\n")
-
-                lesson = session["timetable"][0]["lesson"]
-
-                print(f"Subject : {lesson.subject}")
-                print(f"Topic   : {lesson.topic}")
                 print(
-                    f"Estimated Time : "
-                    f"{session['timetable'][0]['expected_time']} min"
+                    f"\nLesson Completed "
+                    f"({result['elapsed']})"
                 )
-
-                return
-
-            if choice == "E":
-
-                editor = PlanEditor()
-
-                lesson = editor.choose_lesson(
-                    session["timetable"]
-                )
-
-                if lesson == 0:
-                    continue
-
-                replacement = editor.choose_replacement(
-                    session["timetable"],
-                    work_units,
-                )
-
-                if replacement is None:
-                    continue
-
-                editor.replace(
-                    session["timetable"],
-                    lesson,
-                    replacement,
-                )
-
-                self.recalculate(session)
-
-                print("\nPlan Updated.\n")
 
                 continue
 
-            if choice == "Q":
+            if status == "quit":
 
-                print("\nSession Closed.")
-                print("See you tomorrow.\n")
+                print("\nSession Ended.")
 
-                return
+                break
+
+        print("\nToday's Session Summary")
+
+        summary = queue.summary()
+
+        print(
+            f"Completed : "
+            f"{summary['completed']}"
+        )
+
+        print(
+            f"Remaining : "
+            f"{summary['remaining']}"
+        )
+
+        print(
+            f"Deferred  : "
+            f"{summary['deferred']}"
+        )

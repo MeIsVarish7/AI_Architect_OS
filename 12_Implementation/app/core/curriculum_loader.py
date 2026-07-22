@@ -1,3 +1,4 @@
+from app.core.lesson_category import LessonCategory
 from app.core.work_unit import WorkUnit
 
 
@@ -8,226 +9,139 @@ class CurriculumLoader:
         work_units = []
 
         programming = [
-            ("Python Variables", 30, 45),
-            ("Data Types", 30, 45),
-            ("Operators", 30, 45),
-            ("Conditional Statements", 45, 60),
-            ("Loops", 45, 60),
-            ("Functions", 45, 75),
-            ("Modules & Packages", 45, 60),
-            ("File Handling", 45, 60),
-            ("Object Oriented Programming", 60, 90),
-            ("Exception Handling", 45, 60),
+            ("Python Variables", LessonCategory.BASIC),
+            ("Data Types", LessonCategory.BASIC),
+            ("Operators", LessonCategory.BASIC),
+            ("Conditional Statements", LessonCategory.MEDIUM),
+            ("Loops", LessonCategory.MEDIUM),
+            ("Functions", LessonCategory.MEDIUM),
+            ("Modules & Packages", LessonCategory.MEDIUM),
+            ("File Handling", LessonCategory.MEDIUM),
+            ("Object Oriented Programming", LessonCategory.HEAVY),
+            ("Exception Handling", LessonCategory.MEDIUM),
         ]
 
         dsa = [
-            ("Arrays", 45, 60),
-            ("Strings", 45, 60),
-            ("Searching", 45, 60),
-            ("Sorting", 60, 90),
-            ("Recursion", 60, 90),
-            ("Linked Lists", 60, 90),
-            ("Stacks", 45, 60),
-            ("Queues", 45, 60),
-            ("Trees", 60, 90),
-            ("Graphs", 60, 90),
+            ("Arrays", LessonCategory.MEDIUM),
+            ("Strings", LessonCategory.MEDIUM),
+            ("Searching", LessonCategory.MEDIUM),
+            ("Sorting", LessonCategory.HEAVY),
+            ("Recursion", LessonCategory.HEAVY),
+            ("Linked Lists", LessonCategory.HEAVY),
+            ("Stacks", LessonCategory.MEDIUM),
+            ("Queues", LessonCategory.MEDIUM),
+            ("Trees", LessonCategory.HEAVY),
+            ("Graphs", LessonCategory.HEAVY),
         ]
 
         mathematics = [
-            ("Algebra", 45, 60),
-            ("Functions", 45, 60),
-            ("Matrices", 60, 90),
-            ("Linear Algebra", 60, 90),
-            ("Probability", 45, 75),
-            ("Statistics", 45, 75),
-            ("Calculus", 60, 90),
-            ("Optimization", 60, 90),
+            ("Algebra", LessonCategory.MEDIUM),
+            ("Functions", LessonCategory.MEDIUM),
+            ("Matrices", LessonCategory.HEAVY),
+            ("Linear Algebra", LessonCategory.HEAVY),
+            ("Probability", LessonCategory.MEDIUM),
+            ("Statistics", LessonCategory.MEDIUM),
+            ("Calculus", LessonCategory.HEAVY),
+            ("Optimization", LessonCategory.HEAVY),
         ]
 
         computer_science = [
-            ("Computer Organization", 45, 60),
-            ("Operating Systems", 60, 90),
-            ("Computer Networks", 60, 90),
-            ("DBMS", 60, 90),
-            ("System Design Basics", 60, 90),
-            ("Distributed Systems", 60, 90),
-            ("Compilers", 60, 90),
-            ("Concurrency", 60, 90),
+            ("Computer Organization", LessonCategory.MEDIUM),
+            ("Operating Systems", LessonCategory.HEAVY),
+            ("Computer Networks", LessonCategory.HEAVY),
+            ("DBMS", LessonCategory.HEAVY),
+            ("System Design Basics", LessonCategory.HEAVY),
+            ("Distributed Systems", LessonCategory.HEAVY),
+            ("Compilers", LessonCategory.HEAVY),
+            ("Concurrency", LessonCategory.HEAVY),
         ]
 
         ai = [
-            ("Python for AI", 45, 60),
-            ("NumPy", 45, 60),
-            ("Pandas", 45, 60),
-            ("Data Visualization", 45, 60),
-            ("Machine Learning Basics", 60, 90),
-            ("Supervised Learning", 60, 90),
-            ("Neural Networks", 60, 90),
-            ("Deep Learning", 60, 90),
-            ("Transformers", 60, 90),
-            ("LLMs", 60, 90),
+            ("Python for AI", LessonCategory.MEDIUM),
+            ("NumPy", LessonCategory.MEDIUM),
+            ("Pandas", LessonCategory.MEDIUM),
+            ("Data Visualization", LessonCategory.MEDIUM),
+            ("Machine Learning Basics", LessonCategory.HEAVY),
+            ("Supervised Learning", LessonCategory.HEAVY),
+            ("Neural Networks", LessonCategory.HEAVY),
+            ("Deep Learning", LessonCategory.HEAVY),
+            ("Transformers", LessonCategory.HEAVY),
+            ("LLMs", LessonCategory.HEAVY),
         ]
 
-        for topic, mn, mx in programming:
-            work_units.append(
-                WorkUnit(
-                    subject="Programming",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        for topic, mn, mx in dsa:
-            work_units.append(
-                WorkUnit(
-                    subject="DSA",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        for topic, mn, mx in mathematics:
-            work_units.append(
-                WorkUnit(
-                    subject="Mathematics",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        for topic, mn, mx in computer_science:
-            work_units.append(
-                WorkUnit(
-                    subject="Computer Science",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        for topic, mn, mx in ai:
-            work_units.append(
-                WorkUnit(
-                    subject="AI",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        # ----- PART 2 CONTINUES HERE -----
         systems_engineering = [
-            ("Linux Basics", 45, 60),
-            ("Git", 30, 45),
-            ("GitHub", 30, 45),
-            ("Docker", 60, 90),
-            ("Cloud Fundamentals", 60, 90),
-            ("CI/CD", 60, 90),
+            ("Linux Basics", LessonCategory.MEDIUM),
+            ("Git", LessonCategory.BASIC),
+            ("GitHub", LessonCategory.BASIC),
+            ("Docker", LessonCategory.HEAVY),
+            ("Cloud Fundamentals", LessonCategory.HEAVY),
+            ("CI/CD", LessonCategory.HEAVY),
         ]
 
         projects = [
-            ("Project Planning", 45, 60),
-            ("Requirement Analysis", 45, 60),
-            ("Architecture Design", 60, 90),
-            ("Implementation", 60, 90),
-            ("Testing", 45, 60),
-            ("Deployment", 45, 60),
+            ("Project Planning", LessonCategory.MEDIUM),
+            ("Requirement Analysis", LessonCategory.MEDIUM),
+            ("Architecture Design", LessonCategory.HEAVY),
+            ("Implementation", LessonCategory.HEAVY),
+            ("Testing", LessonCategory.MEDIUM),
+            ("Deployment", LessonCategory.MEDIUM),
         ]
 
         research = [
-            ("Reading Research Papers", 45, 60),
-            ("Paper Summarization", 45, 60),
-            ("Literature Review", 60, 90),
-            ("Research Methodology", 60, 90),
-            ("Experiment Design", 60, 90),
-            ("Writing Research Notes", 45, 60),
+            ("Reading Research Papers", LessonCategory.MEDIUM),
+            ("Paper Summarization", LessonCategory.MEDIUM),
+            ("Literature Review", LessonCategory.HEAVY),
+            ("Research Methodology", LessonCategory.HEAVY),
+            ("Experiment Design", LessonCategory.HEAVY),
+            ("Writing Research Notes", LessonCategory.MEDIUM),
         ]
 
         communication = [
-            ("Technical Writing", 45, 60),
-            ("Presentation Skills", 45, 60),
-            ("Documentation", 45, 60),
-            ("Interview Communication", 45, 60),
-            ("Resume Building", 45, 60),
+            ("Technical Writing", LessonCategory.MEDIUM),
+            ("Presentation Skills", LessonCategory.MEDIUM),
+            ("Documentation", LessonCategory.MEDIUM),
+            ("Interview Communication", LessonCategory.MEDIUM),
+            ("Resume Building", LessonCategory.MEDIUM),
         ]
 
         industry = [
-            ("Open Source", 45, 60),
-            ("GitHub Portfolio", 45, 60),
-            ("System Design Interviews", 60, 90),
-            ("Behavioral Interviews", 45, 60),
-            ("Resume Review", 45, 60),
+            ("Open Source", LessonCategory.MEDIUM),
+            ("GitHub Portfolio", LessonCategory.MEDIUM),
+            ("System Design Interviews", LessonCategory.HEAVY),
+            ("Behavioral Interviews", LessonCategory.MEDIUM),
+            ("Resume Review", LessonCategory.MEDIUM),
         ]
 
         life = [
-            ("Productivity", 30, 45),
-            ("Time Management", 30, 45),
-            ("Health & Fitness", 45, 60),
-            ("Deep Work", 45, 60),
-            ("Reflection", 30, 45),
+            ("Productivity", LessonCategory.BASIC),
+            ("Time Management", LessonCategory.BASIC),
+            ("Health & Fitness", LessonCategory.MEDIUM),
+            ("Deep Work", LessonCategory.MEDIUM),
+            ("Reflection", LessonCategory.BASIC),
         ]
 
-        for topic, mn, mx in systems_engineering:
-            work_units.append(
-                WorkUnit(
-                    subject="Systems Engineering",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
+        subject_map = {
+            "Programming": programming,
+            "DSA": dsa,
+            "Mathematics": mathematics,
+            "Computer Science": computer_science,
+            "AI": ai,
+            "Systems Engineering": systems_engineering,
+            "Projects": projects,
+            "Research": research,
+            "Communication": communication,
+            "Industry": industry,
+            "Life": life,
+        }
 
-        for topic, mn, mx in projects:
-            work_units.append(
-                WorkUnit(
-                    subject="Projects",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
+        for subject, lessons in subject_map.items():
+            for topic, category in lessons:
+                work_units.append(
+                    WorkUnit(
+                        subject=subject,
+                        topic=topic,
+                        category=category,
+                    )
                 )
-            )
-
-        for topic, mn, mx in research:
-            work_units.append(
-                WorkUnit(
-                    subject="Research",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        for topic, mn, mx in communication:
-            work_units.append(
-                WorkUnit(
-                    subject="Communication",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        for topic, mn, mx in industry:
-            work_units.append(
-                WorkUnit(
-                    subject="Industry",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
-
-        for topic, mn, mx in life:
-            work_units.append(
-                WorkUnit(
-                    subject="Life",
-                    topic=topic,
-                    minimum_time=mn,
-                    maximum_time=mx,
-                )
-            )
 
         return work_units

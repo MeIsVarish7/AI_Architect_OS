@@ -1,20 +1,22 @@
+from dataclasses import dataclass
+
+from .lesson_category import LessonCategory
+
+
+@dataclass
 class WorkUnit:
+    subject: str
+    topic: str
+    category: LessonCategory
 
-    def __init__(
-        self,
-        subject,
-        topic,
-        minimum_time,
-        maximum_time,
-    ):
-        self.subject = subject
-        self.topic = topic
-        self.minimum_time = minimum_time
-        self.maximum_time = maximum_time
+    @property
+    def minimum_time(self):
+        return self.category.duration_range[0]
 
-    def __str__(self):
-        return (
-            f"{self.subject} | "
-            f"{self.topic} | "
-            f"{self.minimum_time}-{self.maximum_time} min"
-        )
+    @property
+    def maximum_time(self):
+        return self.category.duration_range[1]
+
+    @property
+    def expected_time(self):
+        return self.category.expected_duration

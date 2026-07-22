@@ -1,79 +1,38 @@
-from app.core.focus_strategy import FocusStrategy
+from app.core.progress_tracker import ProgressTracker
 
 
 class TimetableBuilder:
 
-    BUFFER_MINUTES = 15
-    OVERSHOOT_TOLERANCE = 30
+    def __init__(self):
 
-    def build(self, work_units, runtime):
+        self.progress = ProgressTracker()
 
-        planning_target = max(
-            0,
-            runtime["available_minutes"] - self.BUFFER_MINUTES,
-        )
+    def build(self, work_units):
 
-        focus_blocks = (
-            FocusStrategy()
-            .create_focus_blocks(
-                planning_target,
-                runtime["energy"],
-                runtime["weekday"],
-            )
-        )
+        timetable = []
 
-        grouped = {}
+        subjects = {}
 
+        # Group all lessons by subject
         for lesson in work_units:
-            grouped.setdefault(
-                lesson.subject.strip(),
+
+            subjects.setdefault(
+                lesson.subject,
                 []
             ).append(lesson)
 
-        timetable = []
-        planned_minutes = 0
+        # Pick the current lesson for each subject
+        for subject, lessons in subjects.items():
 
-        for block in focus_blocks:
+            index = self.progress.current_index(
+                subject
+            )
 
-            subject = block["subject"].strip()
-            block_time = block["minutes"]
-
-            if subject not in grouped:
+            if index >= len(lessons):
                 continue
 
-            spent = 0
+            timetable.append(
+                lessons[index]
+            )
 
-            for lesson in grouped[subject]:
-
-                expected = (
-                    lesson.minimum_time
-                    + lesson.maximum_time
-                ) // 2
-
-                overshoot = (
-                    spent + expected
-                    - block_time
-                )
-
-                if (
-                    spent != 0
-                    and overshoot > self.OVERSHOOT_TOLERANCE
-                ):
-                    break
-
-                timetable.append(
-                    {
-                        "lesson": lesson,
-                        "expected_time": expected,
-                        "priority": block["priority"],
-                    }
-                )
-
-                spent += expected
-                planned_minutes += expected
-
-        return {
-            "timetable": timetable,
-            "planned_minutes": planned_minutes,
-            "buffer_minutes": self.BUFFER_MINUTES,
-        }
+        return timetable

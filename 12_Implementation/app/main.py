@@ -9,6 +9,7 @@ from pathlib import Path
 
 from app.core.context_engine import ContextEngine
 from app.core.curriculum_loader import CurriculumLoader
+from app.core.daily_queue import DailyQueue
 from app.core.health_check import HealthCheck
 from app.core.os_context import OSContext
 from app.core.runtime_input import RuntimeInput
@@ -31,7 +32,9 @@ class AIArchitectOS:
 
         HealthCheck(self.root).run()
 
-        kernel = ContextEngine(self.root.parent).load_kernel()
+        kernel = ContextEngine(
+            self.root.parent
+        ).load_kernel()
 
         OSContext(kernel)
 
@@ -39,15 +42,15 @@ class AIArchitectOS:
 
         work_units = CurriculumLoader().load()
 
-        session = TimetableBuilder().build(
-            work_units,
-            runtime,
+        timetable = TimetableBuilder().build(
+            work_units
         )
 
-        SessionController().run(
-            session,
-            work_units,
-        )
+        queue = DailyQueue()
+
+        queue.load(timetable)
+
+        SessionController().run(queue)
 
 
 def main():
